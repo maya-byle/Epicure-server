@@ -2,8 +2,8 @@
     {
         "title": "Claro",
         "subTitle": "Ran Shmueli",
-        "img": "path_to_your_images/claro.png",
-        "stars": "path_to_your_images/4stars.svg"
+        "image": "path_to_your_images/claro.png",
+        "chef": "65b8e298f3b8302dd5893d3a"
     },
     {
         "title": "Kab Kem",
