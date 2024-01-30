@@ -10,6 +10,7 @@ connectToDb((err: any) => {
   if (err) {
     return;
   }
+  app.use(express.json());
   app.use("/", dishesRoutes);
   app.use("/", chefsRoutes);
   app.use("/", restaurantsRoutes);
