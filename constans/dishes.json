@@ -1,0 +1,31 @@
+[
+    {
+        "image": "path_to_your_images/claro.png",
+        "name": "Pad Ki Mao",
+        "ingredients": ["Shrimps", "Glass Noodles", "Kemiri Nuts", "Shallots", "Lemon Grass", "Magic Chili", "Brown Coconut"],
+        "tags": ["path_to_your_images/spicyIcon.png"],
+        "price": 88,
+        "restaurant": ["65b8eb851147d530e2a863a5"]
+    },
+    {
+      "image": "path_to_your_images/garbanzoFrito.png",
+      "name": "Garbanzo Frito",
+      "ingredients": ["Polenta fingers, veal cheek, magic chili cured lemon cream, yellow laksa"],
+      "foodIcon": "path_to_your_images/spicyIcon.png",
+      "price": 98
+    },
+    {
+      "image": "path_to_your_images/tamalako.png",
+      "name": "ta ma la ko",
+      "ingredients": ["Green Papaya, Mango, Chukka Chili, Mint, Kaffir lime, Cashew, Akaya Cham sauce"],
+      "foodIcon": "path_to_your_images/vegitarianIcon.png",
+      "price": 65
+    },
+    {
+      "image": "path_to_your_images/smokedPizza.png",
+      "name": "Smoked Pizza",
+      "ingredients": ["Basil dough, cashew butter, demi-glace, bison & radish"],
+      "foodIcon": "path_to_your_images/veganIcon.png",
+      "price": 65
+    }
+  ]

@@ -4,9 +4,9 @@ import dishesRoutes from "./routes/dishes";
 import chefsRoutes from "./routes/chefs";
 import restaurantsRoutes from "./routes/restaurants";
 
-const app = express();
+const app: express.Application = express();
 
-connectToDb((err: any) => {
+connectToDb((err: Error) => {
   if (err) {
     return;
   }

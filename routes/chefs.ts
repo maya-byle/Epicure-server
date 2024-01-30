@@ -1,7 +1,7 @@
 import chefController from "../controllers/chef.controller";
 import express from "express";
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 router.get("/chefs", chefController.getAllChefs);
 router.post("/chefs", chefController.createChef);

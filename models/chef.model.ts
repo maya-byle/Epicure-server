@@ -8,7 +8,7 @@ export interface IChef extends Document {
   restaurants: IRestaurant[];
 }
 
-const chefSchema = new mongoose.Schema<IChef>({
+const chefSchema: Schema = new mongoose.Schema<IChef>({
   name: {
     type: String,
     required: true,

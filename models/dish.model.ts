@@ -10,7 +10,7 @@ export interface IDish extends Document {
   restaurant: IRestaurant;
 }
 
-const DishSchema = new mongoose.Schema<IDish>({
+const DishSchema: Schema = new mongoose.Schema<IDish>({
   image: {
     type: String,
     required: true,

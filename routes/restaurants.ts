@@ -1,7 +1,7 @@
 import restaurantController from "../controllers/restaurant.controller";
 import express from "express";
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 router.get("/restaurants", restaurantController.getAllRestaurants);
 router.post("/restaurants", restaurantController.createRestaurant);

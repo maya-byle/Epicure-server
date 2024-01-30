@@ -1,7 +1,7 @@
 import dishController from "../controllers/dish.controller";
 import express from "express";
 
-const router = express.Router();
+const router: express.Router = express.Router();
 
 router.get("/dishes", dishController.getAllDishes);
 router.post("/dishes", dishController.createDish);

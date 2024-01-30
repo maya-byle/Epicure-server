@@ -8,7 +8,7 @@ export interface IRestaurant extends Document {
   chef: IChef;
 }
 
-const restaurantSchema = new mongoose.Schema<IRestaurant>({
+const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
   image: {
     type: String,
   },

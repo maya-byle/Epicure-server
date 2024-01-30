@@ -1,1 +1,4 @@
-/.constans
+node_modules
+
+.constans
+.env
