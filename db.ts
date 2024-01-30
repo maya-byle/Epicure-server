@@ -1,8 +1,8 @@
-// const password = "UkNLSllxeF1o";
-// const deployeduri = `mongodb+srv://Cluster47742:${password}@cluster47742.cv0bgdv.mongodb.net/?retryWrites=true&w=majority`;
 import mongoose, { Connection } from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-const localUri = "mongodb://localhost:27017/Epicure";
+const localUri: string = process.env.LOCAL_MONGODB_URI || "";
 
 let dbConnection: Connection;
 
