@@ -1,11 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { IDish } from "./dish.model";
+import { IChef } from "./chef.model";
 
 export interface IRestaurant extends Document {
-  image?: string;
+  image: string;
   title: string;
   subTitle: string;
-  foodIcon?: "spicy" | "vegetarian" | "vegan";
-  price: number;
+  chef: IChef;
+  dishes: IDish[];
 }
 
 const restaurantSchema = new mongoose.Schema<IRestaurant>({
@@ -20,14 +22,7 @@ const restaurantSchema = new mongoose.Schema<IRestaurant>({
     type: String,
     required: true,
   },
-  foodIcon: {
-    type: String,
-    enum: ["spicy", "vegetarian", "vegan"],
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
+  dishes: [{ type: Schema.Types.ObjectId, ref: "dish" }],
 });
 
 const RestaurantModel = mongoose.model<IRestaurant>(
