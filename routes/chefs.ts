@@ -1,5 +1,4 @@
 import express from "express";
-import { getConnection } from "../db";
 import chefModel from "../models/chef.model";
 
 const router = express.Router();
@@ -16,7 +15,7 @@ router.get("/chefs", async (req, res) => {
 
 router.post("/chefs", async (req, res) => {
   try {
-    const newChef = await chefModel.create(req.body); // use await here
+    const newChef = await chefModel.create(req.body);
     res
       .status(200)
       .json({ message: "Chef created successfully", chef: newChef });

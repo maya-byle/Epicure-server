@@ -1,19 +1,54 @@
 import express from "express";
-import { getConnection } from "../db";
-import { Connection } from "mongoose";
-import Dish from "../models/dishModel";
+import dishModel from "../models/dish.model";
 
-// const db: Connection = getConnection();
 const router = express.Router();
 
 router.get("/dishes", async (req, res) => {
   try {
-    const db = await getConnection(); //TODO: move it to db and just move the connection to here
-    const dishes = await db.collection("Dishes").find({}).toArray();
+    const dishes: any = await dishModel.find();
     res.status(200).json(dishes);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "could not fetch the documents" });
+  }
+});
+
+router.post("/dishes", async (req, res) => {
+  try {
+    const newDish = await dishModel.create(req.body);
+    res
+      .status(200)
+      .json({ message: "Dish created successfully", dish: newDish });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not create the dish" });
+  }
+});
+
+router.put("/dishes/:id", async (req, res) => {
+  try {
+    const dishId = req.params.id;
+    const updatedDish = await dishModel.updateOne({ _id: dishId }, req.body);
+    res
+      .status(200)
+      .json({ message: "Dish updated successfully", dish: updatedDish });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not update the dish" });
+  }
+});
+
+router.delete("/dishes/:id", async (req, res) => {
+  try {
+    const dishId = req.params.id;
+    const deletedDish = await dishModel.findByIdAndDelete(dishId);
+    if (!deletedDish) return res.status(404).json({ error: "Dish not found" });
+    res
+      .status(200)
+      .json({ message: "Dish deleted successfully", dish: deletedDish });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not delete the dish" });
   }
 });
 
