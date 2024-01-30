@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
+export interface IRestaurant extends Document {
+  image?: string;
+  title: string;
+  subTitle: string;
+  foodIcon?: "spicy" | "vegetarian" | "vegan";
+  price: number;
+}
 
-const restaurantSchema = new Schema({
+const restaurantSchema = new mongoose.Schema<IRestaurant>({
   image: {
     type: String,
   },
@@ -16,7 +22,7 @@ const restaurantSchema = new Schema({
   },
   foodIcon: {
     type: String,
-    enum: ["spicy", "vegitarian", "vegan"],
+    enum: ["spicy", "vegetarian", "vegan"],
   },
   price: {
     type: Number,
@@ -24,4 +30,9 @@ const restaurantSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Restaurant", restaurantSchema);
+const RestaurantModel = mongoose.model<IRestaurant>(
+  "Restaurant",
+  restaurantSchema
+);
+
+export default RestaurantModel;

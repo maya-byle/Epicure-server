@@ -1,6 +1,8 @@
 import express from "express";
 import { connectToDb } from "./db";
 import dishesRoutes from "./routes/dishes";
+import chefsRoutes from "./routes/chefs";
+import restaurantsRoutes from "./routes/restaurants";
 
 const app = express();
 
@@ -9,6 +11,8 @@ connectToDb((err: any) => {
     return;
   }
   app.use("/", dishesRoutes);
+  app.use("/", chefsRoutes);
+  app.use("/", restaurantsRoutes);
   startServer();
 });
 

@@ -3,7 +3,6 @@
 import mongoose, { Connection, Document, Schema } from "mongoose";
 
 const localUri = "mongodb://localhost:27017/Epicure";
-// const localUri = "mongodb://localhost/epicure";
 
 let dbConnection: Connection;
 
