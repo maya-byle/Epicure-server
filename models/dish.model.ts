@@ -1,12 +1,5 @@
-import { ObjectId } from "mongodb";
 import mongoose, { Document, Schema } from "mongoose";
 import { IRestaurant } from "./restaurant.model";
-
-/*
-Name ,price 
-Ingredients,tags string[]
-Restaurant (ID object)
-*/
 
 export interface IDish extends Document {
   image: string;
