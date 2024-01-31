@@ -6,7 +6,7 @@ export interface IChef extends Document {
   name: string;
   description: string;
   restaurants: IRestaurant[];
-  isDeleted: number;
+  isDeleted: boolean;
 }
 
 const chefSchema: Schema = new mongoose.Schema<IChef>({
@@ -28,8 +28,8 @@ const chefSchema: Schema = new mongoose.Schema<IChef>({
     },
   ],
   isDeleted: {
-    type: Number,
-    default: 0,
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -1,9 +1,9 @@
-import dishModel from "../models/dish.model";
+import dishHandler from "../handlers/dish.handler";
 import { Request, Response } from "express";
 
 const getAllDishes = async (req: Request, res: Response) => {
   try {
-    const dishes: any = await dishModel.find({ isDeleted: false });
+    const dishes: any = await dishHandler.getAllDishes();
     res.status(200).json(dishes);
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ const getAllDishes = async (req: Request, res: Response) => {
 
 const createDish = async (req: Request, res: Response) => {
   try {
-    const newDish = await dishModel.create(req.body);
+    const newDish = await dishHandler.createDish(req.body);
     res
       .status(200)
       .json({ message: "Dish created successfully", dish: newDish });
@@ -26,7 +26,7 @@ const createDish = async (req: Request, res: Response) => {
 const updateDish = async (req: Request, res: Response) => {
   try {
     const dishId = req.params.id;
-    const updatedDish = await dishModel.updateOne({ _id: dishId }, req.body);
+    const updatedDish = await dishHandler.updateDish(dishId, req.body);
     res
       .status(200)
       .json({ message: "Dish updated successfully", dish: updatedDish });
@@ -39,11 +39,7 @@ const updateDish = async (req: Request, res: Response) => {
 const deleteDish = async (req: Request, res: Response) => {
   try {
     const dishId = req.params.id;
-    const deletedDish = await dishModel.findByIdAndUpdate(
-      dishId,
-      { isDeleted: true },
-      { new: true } //ensures that the updated document is returned
-    );
+    const deletedDish = await dishHandler.deleteDish(dishId);
     if (!deletedDish) return res.status(404).json({ error: "Dish not found" });
     res
       .status(200)

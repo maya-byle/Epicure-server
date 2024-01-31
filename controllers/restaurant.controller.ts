@@ -1,9 +1,9 @@
-import restaurantModel from "../models/restaurant.model";
+import restaurantHandler from "../handlers/restaurant.handler";
 import { Request, Response } from "express";
 
 const getAllRestaurants = async (req: Request, res: Response) => {
   try {
-    const restaurants: any = await restaurantModel.find({ isDeleted: false });
+    const restaurants: any = await restaurantHandler.getAllRestaurants();
     res.status(200).json(restaurants);
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ const getAllRestaurants = async (req: Request, res: Response) => {
 
 const createRestaurant = async (req: Request, res: Response) => {
   try {
-    const newRestaurant = await restaurantModel.create(req.body);
+    const newRestaurant = await restaurantHandler.createRestaurant(req.body);
     res.status(200).json({
       message: "Restaurant created successfully",
       restaurant: newRestaurant,
@@ -27,8 +27,8 @@ const createRestaurant = async (req: Request, res: Response) => {
 const updateRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
-    const updatedRestaurant = await restaurantModel.updateOne(
-      { _id: restaurantId },
+    const updatedRestaurant = await restaurantHandler.updateRestaurant(
+      restaurantId,
       req.body
     );
     res.status(200).json({
@@ -44,12 +44,9 @@ const updateRestaurant = async (req: Request, res: Response) => {
 const deleteRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
-    const deletedRestaurant = await restaurantModel.findByIdAndUpdate(
-      restaurantId,
-      { isDeleted: true },
-      { new: true }
+    const deletedRestaurant = await restaurantHandler.deleteRestaurant(
+      restaurantId
     );
-
     if (!deletedRestaurant)
       return res.status(404).json({ error: "Restaurants not found" });
     res.status(200).json({
