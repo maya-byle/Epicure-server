@@ -8,6 +8,7 @@ export interface IDish extends Document {
   tags: string[];
   price: number;
   restaurant: IRestaurant;
+  isDeleted: boolean;
 }
 
 const DishSchema: Schema = new mongoose.Schema<IDish>({
@@ -36,7 +37,11 @@ const DishSchema: Schema = new mongoose.Schema<IDish>({
   },
   restaurant: {
     type: Schema.Types.ObjectId,
-    ref: "Restaurant",
+    ref: "restaurant",
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

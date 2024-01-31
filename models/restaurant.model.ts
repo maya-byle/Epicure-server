@@ -6,6 +6,7 @@ export interface IRestaurant extends Document {
   title: string;
   subTitle: string;
   chef: IChef;
+  isDeleted: boolean;
 }
 
 const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
@@ -21,6 +22,10 @@ const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
     required: true,
   },
   chef: { type: Schema.Types.ObjectId, ref: "chef" },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.model<IRestaurant>("Restaurant", restaurantSchema);
