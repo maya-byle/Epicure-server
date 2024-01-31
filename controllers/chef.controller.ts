@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 const getAllChefs = async (req: Request, res: Response) => {
   try {
-    const chefs = await chefModel.find();
+    const chefs: any = await chefModel.find({ isDeleted: false });
     res.status(200).json(chefs);
   } catch (error) {
     console.error(error);
@@ -39,7 +39,11 @@ const updateChef = async (req: Request, res: Response) => {
 const deleteChef = async (req: Request, res: Response) => {
   try {
     const chefId = req.params.id;
-    const deletedChef = await chefModel.findByIdAndDelete(chefId);
+    const deletedChef = await chefModel.findByIdAndUpdate(
+      chefId,
+      { isDeleted: true },
+      { new: true }
+    );
     if (!deletedChef) return res.status(404).json({ error: "Chef not found" });
     res
       .status(200)

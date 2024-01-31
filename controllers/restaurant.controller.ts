@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 const getAllRestaurants = async (req: Request, res: Response) => {
   try {
-    const restaurants: any = await restaurantModel.find();
+    const restaurants: any = await restaurantModel.find({ isDeleted: false });
     res.status(200).json(restaurants);
   } catch (error) {
     console.error(error);
@@ -44,9 +44,12 @@ const updateRestaurant = async (req: Request, res: Response) => {
 const deleteRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
-    const deletedRestaurant = await restaurantModel.findByIdAndDelete(
-      restaurantId
+    const deletedRestaurant = await restaurantModel.findByIdAndUpdate(
+      restaurantId,
+      { isDeleted: true },
+      { new: true }
     );
+
     if (!deletedRestaurant)
       return res.status(404).json({ error: "Restaurants not found" });
     res.status(200).json({
