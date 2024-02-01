@@ -25,12 +25,12 @@ const chefSchema: Schema = new mongoose.Schema<IChef>({
   restaurants: [
     {
       type: Schema.Types.ObjectId,
-      ref: "restaurant",
+      ref: "Restaurant",
     },
   ],
   status: {
     type: String,
-    enum: [DeleteStatus.ACTIVE, DeleteStatus.DELETED],
+    enum: DeleteStatus,
     default: DeleteStatus.ACTIVE,
   },
 });

@@ -2,7 +2,14 @@ import chefModel, { IChef } from "../models/chef.model";
 import DeleteStatus from "../constants";
 
 const getAllChefs = () => {
-  return chefModel.find({ status: DeleteStatus.ACTIVE });
+  try {
+    return chefModel.find({ status: DeleteStatus.ACTIVE }).populate({
+      path: "restaurants",
+      match: { status: DeleteStatus.ACTIVE },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const createChef = (chef: IChef) => {

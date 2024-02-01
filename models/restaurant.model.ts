@@ -22,10 +22,10 @@ const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
     type: String,
     required: true,
   },
-  chef: { type: Schema.Types.ObjectId, ref: "chef" },
+  chef: { type: Schema.Types.ObjectId, ref: "Chef" },
   status: {
     type: String,
-    enum: [DeleteStatus.ACTIVE, DeleteStatus.DELETED],
+    enum: DeleteStatus,
     default: DeleteStatus.ACTIVE,
   },
 });

@@ -38,11 +38,11 @@ const DishSchema: Schema = new mongoose.Schema<IDish>({
   },
   restaurant: {
     type: Schema.Types.ObjectId,
-    ref: "restaurant",
+    ref: "Restaurant",
   },
   status: {
     type: String,
-    enum: [DeleteStatus.ACTIVE, DeleteStatus.DELETED],
+    enum: DeleteStatus,
     default: DeleteStatus.ACTIVE,
   },
 });
