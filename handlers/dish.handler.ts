@@ -1,7 +1,8 @@
+import DeleteStatus from "../constants";
 import dishModel, { IDish } from "../models/dish.model";
 
 const getAllDishes = () => {
-  return dishModel.find({ isDeleted: false });
+  return dishModel.find({ status: DeleteStatus.ACTIVE });
 };
 
 const createDish = (dish: IDish) => {
@@ -15,7 +16,7 @@ const updateDish = (dishId: string, updates: Partial<IDish>) => {
 const deleteDish = (dishId: string) => {
   return dishModel.findByIdAndUpdate(
     dishId,
-    { isDeleted: true },
+    { status: DeleteStatus.DELETED },
     { new: true }
   );
 };

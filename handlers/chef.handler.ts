@@ -1,7 +1,8 @@
 import chefModel, { IChef } from "../models/chef.model";
+import DeleteStatus from "../constants";
 
 const getAllChefs = () => {
-  return chefModel.find({ isDeleted: false });
+  return chefModel.find({ status: DeleteStatus.ACTIVE });
 };
 
 const createChef = (chef: IChef) => {
@@ -15,7 +16,7 @@ const updateChef = (chefId: string, updates: Partial<IChef>) => {
 const deleteChef = (chefId: string) => {
   return chefModel.findByIdAndUpdate(
     chefId,
-    { isDeleted: true },
+    { status: DeleteStatus.DELETED },
     { new: true }
   );
 };

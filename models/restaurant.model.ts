@@ -1,12 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 import { IChef } from "./chef.model";
+import DeleteStatus from "../constants";
 
 export interface IRestaurant extends Document {
   image: string;
   title: string;
   subTitle: string;
   chef: IChef;
-  isDeleted: boolean;
+  status: DeleteStatus;
 }
 
 const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
@@ -22,9 +23,10 @@ const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
     required: true,
   },
   chef: { type: Schema.Types.ObjectId, ref: "chef" },
-  isDeleted: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    enum: [DeleteStatus.ACTIVE, DeleteStatus.DELETED],
+    default: DeleteStatus.ACTIVE,
   },
 });
 

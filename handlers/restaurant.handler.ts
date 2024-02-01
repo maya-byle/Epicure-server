@@ -1,7 +1,8 @@
+import DeleteStatus from "../constants";
 import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 
 const getAllRestaurants = () => {
-  return restaurantModel.find({ isDeleted: false });
+  return restaurantModel.find({ status: DeleteStatus.ACTIVE });
 };
 
 const createRestaurant = (restaurant: IRestaurant) => {
@@ -18,7 +19,7 @@ const updateRestaurant = (
 const deleteRestaurant = (restaurantId: string) => {
   return restaurantModel.findByIdAndUpdate(
     restaurantId,
-    { isDeleted: true },
+    { status: DeleteStatus.DELETED },
     { new: true }
   );
 };
