@@ -1,8 +1,13 @@
+import { ObjectId } from "mongodb";
 import DeleteStatus from "../constants";
 import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 
 const getAllRestaurants = () => {
   return restaurantModel.find({ status: DeleteStatus.ACTIVE });
+};
+
+const getRestaurantById = (restaurantId: ObjectId) => {
+  return restaurantModel.findOne({ _id: restaurantId });
 };
 
 const createRestaurant = (restaurant: IRestaurant) => {
@@ -25,6 +30,7 @@ const deleteRestaurant = (restaurantId: string) => {
 };
 
 export default {
+  getRestaurantById,
   getAllRestaurants,
   createRestaurant,
   updateRestaurant,
