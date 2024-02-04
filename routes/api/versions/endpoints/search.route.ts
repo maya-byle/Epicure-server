@@ -3,6 +3,6 @@ import express from "express";
 
 const router: express.Router = express.Router();
 
-router.get("/", searchController.get);
+router.get("/", searchController.searchAll);
 
 export default router;

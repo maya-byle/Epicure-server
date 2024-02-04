@@ -3,7 +3,7 @@ import dishModel, { IDish } from "../models/dish.model";
 import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 import chefModel, { IChef } from "../models/chef.model";
 
-const get = async (searchInput: string) => {
+const searchAll = async (searchInput: string) => {
   try {
     const restaurants: IRestaurant[] = await restaurantModel
       .find({
@@ -37,4 +37,4 @@ const get = async (searchInput: string) => {
   }
 };
 
-export default { get };
+export default { searchAll };
