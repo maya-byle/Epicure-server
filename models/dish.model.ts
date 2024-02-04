@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { IRestaurant } from "./restaurant.model";
-import DeleteStatus from "../constants";
+import DocumentStatus from "../constants";
 
 export interface IDish extends Document {
   image: string;
@@ -9,7 +9,7 @@ export interface IDish extends Document {
   tags: string[];
   price: number;
   restaurant: IRestaurant;
-  status: DeleteStatus;
+  status: DocumentStatus;
 }
 
 const DishSchema: Schema = new mongoose.Schema<IDish>({
@@ -42,8 +42,8 @@ const DishSchema: Schema = new mongoose.Schema<IDish>({
   },
   status: {
     type: String,
-    enum: DeleteStatus,
-    default: DeleteStatus.ACTIVE,
+    enum: DocumentStatus,
+    default: DocumentStatus.ACTIVE,
   },
 });
 

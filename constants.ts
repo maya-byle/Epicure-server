@@ -1,7 +1,7 @@
-enum DeleteStatus {
+enum DocumentStatus {
   ACTIVE = "active",
   DRAFT = "draft",
   DELETED = "deleted",
 }
 
-export default DeleteStatus;
+export default DocumentStatus;

@@ -1,7 +1,7 @@
 import DeleteStatus from "../constants";
-import dishModel, { IDish } from "../models/dish.model";
-import restaurantModel, { IRestaurant } from "../models/restaurant.model";
-import chefModel, { IChef } from "../models/chef.model";
+import dishModel from "../models/dish.model";
+import restaurantModel from "../models/restaurant.model";
+import chefModel from "../models/chef.model";
 
 const searchAll = async (searchInput: string) => {
   try {
