@@ -1,7 +1,13 @@
+import { ObjectId } from "mongodb";
+import DeleteStatus from "../constants";
 import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 
 const getAllRestaurants = () => {
-  return restaurantModel.find({ isDeleted: false });
+  return restaurantModel.find({ status: DeleteStatus.ACTIVE });
+};
+
+const getRestaurantById = (restaurantId: ObjectId) => {
+  return restaurantModel.findOne({ _id: restaurantId });
 };
 
 const createRestaurant = (restaurant: IRestaurant) => {
@@ -18,12 +24,13 @@ const updateRestaurant = (
 const deleteRestaurant = (restaurantId: string) => {
   return restaurantModel.findByIdAndUpdate(
     restaurantId,
-    { isDeleted: true },
+    { status: DeleteStatus.DELETED },
     { new: true }
   );
 };
 
 export default {
+  getRestaurantById,
   getAllRestaurants,
   createRestaurant,
   updateRestaurant,
