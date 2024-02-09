@@ -4,11 +4,12 @@ import DeleteStatus from "../constants";
 
 const getAllChefs = async () => {
   try {
-    // return chefModel.find({ status: DeleteStatus.ACTIVE }).populate({
+    return chefModel.find({ status: DeleteStatus.ACTIVE });
+    // .populate({
     //   path: "restaurants",
     //   match: { status: DeleteStatus.ACTIVE },
     // });
-    return getAllChefsOption2();
+    // return getAllChefsOption2();
   } catch (err) {
     console.log(err);
   }
