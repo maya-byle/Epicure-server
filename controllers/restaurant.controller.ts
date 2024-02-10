@@ -3,7 +3,12 @@ import { Request, Response } from "express";
 
 const getAllRestaurants = async (req: Request, res: Response) => {
   try {
-    const restaurants: any = await restaurantHandler.getAllRestaurants();
+    let restaurants;
+    if (req.baseUrl.includes("api")) {
+      restaurants = await restaurantHandler.getAllRestaurants(true);
+    } else {
+      restaurants = await restaurantHandler.getAllRestaurants(false);
+    }
     res
       .status(200)
       .json({ message: "Restaurants fetched successfully", data: restaurants });

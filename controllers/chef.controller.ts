@@ -3,7 +3,12 @@ import { Request, Response } from "express";
 
 const getAllChefs = async (req: Request, res: Response) => {
   try {
-    const chefs = await chefHandler.getAllChefs();
+    let chefs;
+    if (req.baseUrl.includes("api")) {
+      chefs = await chefHandler.getAllChefs(true);
+    } else {
+      chefs = await chefHandler.getAllChefs(false);
+    }
     res
       .status(200)
       .json({ message: "Chefs fetched successfully", data: chefs });

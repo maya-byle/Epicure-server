@@ -2,13 +2,24 @@ import chefModel, { IChef } from "../models/chef.model";
 import restaurantModel from "../models/restaurant.model";
 import DeleteStatus from "../constants";
 
-const getAllChefs = async () => {
+const getAllChefs = async (activeOnly: boolean) => {
   try {
-    return chefModel.find({ status: DeleteStatus.ACTIVE });
-    // .populate({
-    //   path: "restaurants",
-    //   match: { status: DeleteStatus.ACTIVE },
-    // });
+    if (activeOnly) {
+      return chefModel.find({ status: DeleteStatus.ACTIVE });
+    } else {
+      return chefModel.find();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getAllChefsPopulate = async () => {
+  try {
+    return chefModel.find({ status: DeleteStatus.ACTIVE }).populate({
+      path: "restaurants",
+      match: { status: DeleteStatus.ACTIVE },
+    });
     // return getAllChefsOption2();
   } catch (err) {
     console.log(err);
@@ -17,7 +28,7 @@ const getAllChefs = async () => {
 
 // Populate restaurants objects
 // Option 2: without using populate
-const getAllChefsOption2 = async () => {
+const getAllChefsPopulate2 = async () => {
   try {
     const newChefs = await chefModel.aggregate([
       { $match: { status: DeleteStatus.ACTIVE } },

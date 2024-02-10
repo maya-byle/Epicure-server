@@ -3,7 +3,12 @@ import { Request, Response } from "express";
 
 const getAllDishes = async (req: Request, res: Response) => {
   try {
-    const dishes: any = await dishHandler.getAllDishes();
+    let dishes;
+    if (req.baseUrl.includes("api")) {
+      dishes = await dishHandler.getAllDishes(true);
+    } else {
+      dishes = await dishHandler.getAllDishes(false);
+    }
     res
       .status(200)
       .json({ message: "Dishes fetched successfully", data: dishes });

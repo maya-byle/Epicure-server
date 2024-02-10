@@ -2,8 +2,16 @@ import { ObjectId } from "mongodb";
 import DeleteStatus from "../constants";
 import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 
-const getAllRestaurants = () => {
-  return restaurantModel.find({ status: DeleteStatus.ACTIVE });
+const getAllRestaurants = async (activeOnly: boolean) => {
+  try {
+    if (activeOnly) {
+      return restaurantModel.find({ status: DeleteStatus.ACTIVE });
+    } else {
+      return restaurantModel.find();
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getRestaurantById = (restaurantId: ObjectId) => {

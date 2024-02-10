@@ -1,8 +1,16 @@
 import DeleteStatus from "../constants";
 import dishModel, { IDish } from "../models/dish.model";
 
-const getAllDishes = () => {
-  return dishModel.find({ status: DeleteStatus.ACTIVE });
+const getAllDishes = (activeOnly: boolean) => {
+  try {
+    if (activeOnly) {
+      return dishModel.find({ status: DeleteStatus.ACTIVE });
+    } else {
+      return dishModel.find();
+    }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const createDish = (dish: IDish) => {
