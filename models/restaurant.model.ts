@@ -18,10 +18,6 @@ const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   chef: { type: Schema.Types.ObjectId, ref: "Chef" },
   status: {
     type: String,
