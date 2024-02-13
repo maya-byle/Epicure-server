@@ -4,11 +4,11 @@ import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 
 const getAllRestaurants = async (activeOnly: boolean) => {
   try {
-    if (activeOnly) {
-      return restaurantModel.find({ status: DeleteStatus.ACTIVE });
-    } else {
-      return restaurantModel.find();
-    }
+    const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
+    return restaurantModel.find(query).populate({
+      path: "chef",
+      select: "name",
+    });
   } catch (err) {
     console.log(err);
   }

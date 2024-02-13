@@ -3,11 +3,11 @@ import dishModel, { IDish } from "../models/dish.model";
 
 const getAllDishes = (activeOnly: boolean) => {
   try {
-    if (activeOnly) {
-      return dishModel.find({ status: DeleteStatus.ACTIVE });
-    } else {
-      return dishModel.find();
-    }
+    const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
+    return dishModel.find(query).populate({
+      path: "restaurant",
+      select: "name",
+    });
   } catch (err) {
     console.log(err);
   }

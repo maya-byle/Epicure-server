@@ -3,13 +3,11 @@ import DeleteStatus from "../constants";
 
 const getAllChefs = async (activeOnly: boolean) => {
   try {
-    let query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
-    return chefModel.find(query);
-    // .populate({
-    //   path: "restaurants",
-    //   match: { status: DeleteStatus.ACTIVE },
-    //   select: { title: 1, _id: 0 },
-    // });
+    const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
+    return chefModel.find(query).populate({
+      path: "restaurants",
+      select: "name",
+    });
   } catch (err) {
     console.error(err);
   }
