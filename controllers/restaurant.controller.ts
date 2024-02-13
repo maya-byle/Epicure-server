@@ -1,3 +1,4 @@
+import chefHandler from "../handlers/chef.handler";
 import restaurantHandler from "../handlers/restaurant.handler";
 import { Request, Response } from "express";
 
@@ -34,6 +35,9 @@ const createRestaurant = async (req: Request, res: Response) => {
 const updateRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
+    if (req.body.chef) {
+      req.body.chef = await chefHandler.getChefId(req.body.chef);
+    }
     const updatedRestaurant = await restaurantHandler.updateRestaurant(
       restaurantId,
       req.body

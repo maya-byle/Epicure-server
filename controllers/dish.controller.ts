@@ -1,5 +1,6 @@
 import dishHandler from "../handlers/dish.handler";
 import { Request, Response } from "express";
+import restaurantHandler from "../handlers/restaurant.handler";
 
 const getAllDishes = async (req: Request, res: Response) => {
   try {
@@ -33,6 +34,15 @@ const createDish = async (req: Request, res: Response) => {
 const updateDish = async (req: Request, res: Response) => {
   try {
     const dishId = req.params.id;
+    if (req.body.tags) {
+      req.body.tags = req.body.tags.split(",");
+    }
+    if (req.body.restaurant) {
+      req.body.restaurant = await restaurantHandler.getRestaurantId(
+        req.body.restaurant
+      );
+    }
+    console.log(req.body);
     const updatedDish = await dishHandler.updateDish(dishId, req.body);
     res
       .status(200)

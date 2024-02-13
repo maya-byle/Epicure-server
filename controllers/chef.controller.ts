@@ -33,8 +33,12 @@ const createChef = async (req: Request, res: Response) => {
 const updateChef = async (req: Request, res: Response) => {
   try {
     const chefId = req.params.id;
-    const updatedChef = await chefHandler.updateChef(chefId, req.body);
-    console.log(updateChef);
+    const { restaurants, ...updatesWithoutRestaurants } = req.body;
+    console.log(updatesWithoutRestaurants);
+    const updatedChef = await chefHandler.updateChef(
+      chefId,
+      updatesWithoutRestaurants
+    );
     res
       .status(200)
       .json({ message: "Chef updated successfully", data: updatedChef });

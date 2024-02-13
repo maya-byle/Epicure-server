@@ -5,7 +5,6 @@ import DocumentStatus from "../constants";
 export interface IRestaurant extends Document {
   image: string;
   name: string;
-  description: string;
   chef: IChef;
   status: DocumentStatus;
 }

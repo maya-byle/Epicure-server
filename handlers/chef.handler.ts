@@ -1,6 +1,15 @@
 import chefModel, { IChef } from "../models/chef.model";
 import DeleteStatus from "../constants";
 
+const getChefId = async (chefName: string) => {
+  try {
+    const query = { name: chefName };
+    return chefModel.findOne(query).select("_id");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getAllChefs = async (activeOnly: boolean) => {
   try {
     const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
@@ -10,18 +19,6 @@ const getAllChefs = async (activeOnly: boolean) => {
     });
   } catch (err) {
     console.error(err);
-  }
-};
-
-const getAllChefsPopulate = async () => {
-  try {
-    return chefModel.find({ status: DeleteStatus.ACTIVE }).populate({
-      path: "restaurants",
-      match: { status: DeleteStatus.ACTIVE },
-    });
-    // return getAllChefsOption2();
-  } catch (err) {
-    console.log(err);
   }
 };
 
@@ -65,4 +62,4 @@ const deleteChef = (chefId: string) => {
   );
 };
 
-export default { getAllChefs, createChef, updateChef, deleteChef };
+export default { getChefId, getAllChefs, createChef, updateChef, deleteChef };
