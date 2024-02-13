@@ -6,7 +6,7 @@ const uri: string = process.env.DEPLOYED_MONGODB_URI || "";
 
 let dbConnection: Connection;
 
-export const connectToDb = async () => {
+const connectToDb = async () => {
   try {
     await mongoose.connect(uri, {});
     mongoose.set("strictPopulate", false);
@@ -16,3 +16,5 @@ export const connectToDb = async () => {
     console.error(err, "Error while connecting to DB");
   }
 };
+
+export default connectToDb;

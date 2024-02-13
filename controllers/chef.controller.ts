@@ -34,6 +34,7 @@ const updateChef = async (req: Request, res: Response) => {
   try {
     const chefId = req.params.id;
     const updatedChef = await chefHandler.updateChef(chefId, req.body);
+    console.log(updateChef);
     res
       .status(200)
       .json({ message: "Chef updated successfully", data: updatedChef });

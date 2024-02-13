@@ -26,7 +26,9 @@ const updateRestaurant = (
   restaurantId: string,
   updates: Partial<IRestaurant>
 ) => {
-  return restaurantModel.updateOne({ _id: restaurantId }, updates);
+  return restaurantModel.findOneAndUpdate({ _id: restaurantId }, updates, {
+    new: true,
+  });
 };
 
 const deleteRestaurant = (restaurantId: string) => {

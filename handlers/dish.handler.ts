@@ -18,7 +18,7 @@ const createDish = (dish: IDish) => {
 };
 
 const updateDish = (dishId: string, updates: Partial<IDish>) => {
-  return dishModel.updateOne({ _id: dishId }, updates);
+  return dishModel.findOneAndUpdate({ _id: dishId }, updates, { new: true });
 };
 
 const deleteDish = (dishId: string) => {

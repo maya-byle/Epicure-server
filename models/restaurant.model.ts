@@ -4,8 +4,8 @@ import DocumentStatus from "../constants";
 
 export interface IRestaurant extends Document {
   image: string;
-  title: string;
-  subTitle: string;
+  name: string;
+  description: string;
   chef: IChef;
   status: DocumentStatus;
 }
@@ -14,11 +14,11 @@ const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
   image: {
     type: String,
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
-  subTitle: {
+  description: {
     type: String,
     required: true,
   },

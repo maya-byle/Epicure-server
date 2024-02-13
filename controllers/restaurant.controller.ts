@@ -38,6 +38,7 @@ const updateRestaurant = async (req: Request, res: Response) => {
       restaurantId,
       req.body
     );
+    console.log(updateRestaurant);
     res.status(200).json({
       message: "Restaurant updated successfully",
       data: updatedRestaurant,
