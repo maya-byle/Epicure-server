@@ -34,7 +34,6 @@ const updateChef = async (req: Request, res: Response) => {
   try {
     const chefId = req.params.id;
     const { restaurants, ...updatesWithoutRestaurants } = req.body;
-    console.log(updatesWithoutRestaurants);
     const updatedChef = await chefHandler.updateChef(
       chefId,
       updatesWithoutRestaurants
