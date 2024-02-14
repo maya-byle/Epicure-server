@@ -8,7 +8,7 @@ const userRouter = Router();
 // userRouter.get('/:id', verifyToken, userController.getUserById);
 // userRouter.get('/email/:email', verifyToken, userController.getUserByEmail);
 userRouter.post("/", userController.createUser);
-// userRouter.post('/check-password', userController.checkPassword);
+userRouter.post("/login", userController.loginUser);
 // userRouter.put('/:id', verifyToken, userController.updateUser);
 // userRouter.delete('/:id', verifyToken, userController.deleteUser);
 

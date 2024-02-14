@@ -2,6 +2,10 @@ import { ObjectId } from "mongodb";
 import DeleteStatus, { UserRole } from "../constants";
 import UserModel, { IUser } from "../models/user.model";
 
+const getUser = (userEmail: ObjectId) => {
+  return UserModel.findOne({ email: userEmail });
+};
+
 const getAllUsers = async () => {
   try {
     return UserModel.find();
@@ -10,12 +14,8 @@ const getAllUsers = async () => {
   }
 };
 
-const getUserById = (UserId: ObjectId) => {
-  return UserModel.findOne({ _id: UserId });
-};
-
-const createUser = (User: IUser) => {
-  return UserModel.create(User);
+const createUser = (user: IUser) => {
+  return UserModel.create(user);
 };
 
 const updateUser = (UserId: string, updates: Partial<IUser>) => {
@@ -33,7 +33,7 @@ const deleteUser = (UserId: string) => {
 };
 
 export default {
-  getUserById,
+  getUser,
   getAllUsers,
   createUser,
   updateUser,
