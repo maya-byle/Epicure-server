@@ -1,18 +1,9 @@
 import userHandler from "../handlers/user.handler";
 import { Request, Response } from "express";
 import { UserRole } from "../constants";
+var jwt = require("jsonwebtoken");
 
-const getAllUsers = async (req: Request, res: Response) => {
-  try {
-    let users = await userHandler.getAllUsers();
-    res
-      .status(200)
-      .json({ message: "Users fetched successfully", data: users });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not fetch the documents" });
-  }
-};
+const secretKey: string = `${process.env.SECRET_KEY}`;
 
 const loginUser = async (req: Request, res: Response) => {
   try {
@@ -26,10 +17,27 @@ const loginUser = async (req: Request, res: Response) => {
     if (user.role !== UserRole.ADMIN) {
       return res.status(401).json({ error: "Unauthorized request" });
     }
-    // TODO: return JWT
+    const payload = {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    };
+    const token = jwt.sign(payload, secretKey, { expiresIn: "24h" });
     res
       .status(200)
-      .json({ message: "User logged in successfully", data: user });
+      .json({ message: "User logged in successfully", token: token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not fetch the documents" });
+  }
+};
+
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    let users = await userHandler.getAllUsers();
+    res
+      .status(200)
+      .json({ message: "Users fetched successfully", data: users });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not fetch the documents" });
