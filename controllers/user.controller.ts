@@ -1,6 +1,6 @@
 import userHandler from "../handlers/user.handler";
 import { Request, Response } from "express";
-import { UserRole } from "../constans.ts";
+import { UserRole } from "../constants";
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
