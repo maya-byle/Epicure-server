@@ -22,6 +22,17 @@ const getAllChefs = async (activeOnly: boolean) => {
   }
 };
 
+const getChefOfTheWeek = async () => {
+  try {
+    return chefModel.findOne({ isChefOfTheWeek: true }).populate({
+      path: "restaurants",
+      select: ["name", "image"],
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 // Populate restaurants objects
 // Option 2: without using populate
 const getAllChefsPopulate2 = async () => {
@@ -62,4 +73,11 @@ const deleteChef = (chefId: string) => {
   );
 };
 
-export default { getChefId, getAllChefs, createChef, updateChef, deleteChef };
+export default {
+  getChefId,
+  getAllChefs,
+  getChefOfTheWeek,
+  createChef,
+  updateChef,
+  deleteChef,
+};

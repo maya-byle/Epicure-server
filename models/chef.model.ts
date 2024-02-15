@@ -7,6 +7,7 @@ export interface IChef extends Document {
   name: string;
   description: string;
   restaurants: IRestaurant[];
+  isChefOfTheWeek: boolean;
   status: DocumentStatus;
 }
 
@@ -28,6 +29,11 @@ const chefSchema: Schema = new mongoose.Schema<IChef>({
       ref: "Restaurant",
     },
   ],
+  isChefOfTheWeek: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   status: {
     type: String,
     enum: DocumentStatus,
