@@ -19,22 +19,46 @@ const getAllRestaurants = async (req: Request, res: Response) => {
   }
 };
 
+const getChefs = async (req: Request, res: Response) => {
+  try {
+    const chefs = await chefHandler.getAllChefs(true); //TODO: change to get chefs names?
+    res
+      .status(200)
+      .json({ message: "Chefs list fetched successfully", data: chefs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "could not fetch the documents" });
+  }
+};
+
 const createRestaurant = async (req: Request, res: Response) => {
   try {
     const newRestaurant = await restaurantHandler.createRestaurant(req.body);
+    await chefHandler.updateChef(req.body.chef, {
+      $push: { restaurants: newRestaurant._id },
+    });
     res.status(200).json({
       message: "Restaurant created successfully",
       data: newRestaurant,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Could not create the restaurant" });
+    res.status(500).json(error);
   }
 };
 
 const updateRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
+    const oldRestaurant = await restaurantHandler.getRestaurantById(
+      restaurantId
+    );
+    if (req.body.chef && req.body.chef !== oldRestaurant?.chef) {
+      const oldChefId = oldRestaurant?.chef;
+      const newChefId = await chefHandler.getChefId(req.body.chef);
+      await chefHandler.removeRestaurantFromChef(oldChefId, restaurantId);
+      await chefHandler.addRestaurantToChef(newChefId, restaurantId);
+    }
     if (req.body.chef) {
       req.body.chef = await chefHandler.getChefId(req.body.chef);
     }
@@ -42,7 +66,6 @@ const updateRestaurant = async (req: Request, res: Response) => {
       restaurantId,
       req.body
     );
-    console.log(updateRestaurant);
     res.status(200).json({
       message: "Restaurant updated successfully",
       data: updatedRestaurant,
@@ -72,6 +95,7 @@ const deleteRestaurant = async (req: Request, res: Response) => {
 };
 
 export default {
+  getChefs,
   getAllRestaurants,
   createRestaurant,
   updateRestaurant,

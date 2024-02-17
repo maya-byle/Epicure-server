@@ -61,8 +61,10 @@ const createChef = (chef: IChef) => {
   return chefModel.create(chef);
 };
 
-const updateChef = (chefId: string, updates: Partial<IChef>) => {
-  return chefModel.findOneAndUpdate({ _id: chefId }, updates, { new: true });
+const updateChef = async (chefId: string, updates: any) => {
+  return await chefModel.findOneAndUpdate({ _id: chefId }, updates, {
+    new: true,
+  });
 };
 
 const deleteChef = (chefId: string) => {
@@ -73,6 +75,31 @@ const deleteChef = (chefId: string) => {
   );
 };
 
+const removeRestaurantFromChef = async (
+  chefId: IChef | undefined,
+  restaurantId: string
+) => {
+  try {
+    await chefModel.findByIdAndUpdate(chefId, {
+      $pull: { restaurants: restaurantId },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+const addRestaurantToChef = async (chefId: any, restaurantId: string) => {
+  try {
+    await chefModel.findByIdAndUpdate(chefId, {
+      $push: { restaurants: restaurantId },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export default {
   getChefId,
   getAllChefs,
@@ -80,4 +107,6 @@ export default {
   createChef,
   updateChef,
   deleteChef,
+  removeRestaurantFromChef,
+  addRestaurantToChef,
 };
