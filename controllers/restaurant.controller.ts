@@ -33,10 +33,9 @@ const getChefs = async (req: Request, res: Response) => {
 
 const createRestaurant = async (req: Request, res: Response) => {
   try {
+    req.body.chef = await chefHandler.getChefId(req.body.chef);
     const newRestaurant = await restaurantHandler.createRestaurant(req.body);
-    await chefHandler.updateChef(req.body.chef, {
-      $push: { restaurants: newRestaurant._id },
-    });
+    chefHandler.addRestaurantToChef(req.body.chef, newRestaurant._id);
     res.status(200).json({
       message: "Restaurant created successfully",
       data: newRestaurant,

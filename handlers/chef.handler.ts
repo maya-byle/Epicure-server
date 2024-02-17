@@ -1,5 +1,6 @@
 import chefModel, { IChef } from "../models/chef.model";
 import DeleteStatus from "../constants";
+import { ObjectId } from "mongodb";
 
 const getChefId = async (chefName: string) => {
   try {
@@ -89,7 +90,10 @@ const removeRestaurantFromChef = async (
   }
 };
 
-const addRestaurantToChef = async (chefId: any, restaurantId: string) => {
+const addRestaurantToChef = async (
+  chefId: any,
+  restaurantId: string | ObjectId
+) => {
   try {
     await chefModel.findByIdAndUpdate(chefId, {
       $push: { restaurants: restaurantId },
