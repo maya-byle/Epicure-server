@@ -1,10 +1,10 @@
 import searchHandler from "../handlers/search.handler";
 import { Request, Response } from "express";
 
-const get = async (req: Request, res: Response) => {
+const searchAll = async (req: Request, res: Response) => {
   try {
-    const searchInput: string = req.body.input;
-    const results = await searchHandler.get(searchInput);
+    const searchInput: string = req.query.input as string;
+    const results = await searchHandler.searchAll(searchInput);
     res.status(200).json(results);
   } catch (error) {
     console.error(error);
@@ -13,5 +13,5 @@ const get = async (req: Request, res: Response) => {
 };
 
 export default {
-  get,
+  searchAll,
 };

@@ -4,11 +4,11 @@ import DeleteStatus from "../constants";
 
 const getAllChefs = async () => {
   try {
-    return chefModel.find({ status: DeleteStatus.ACTIVE }).populate({
-      path: "restaurants",
-      match: { status: DeleteStatus.ACTIVE },
-    });
-    // return getAllChefsOption2();
+    // return chefModel.find({ status: DeleteStatus.ACTIVE }).populate({
+    //   path: "restaurants",
+    //   match: { status: DeleteStatus.ACTIVE },
+    // });
+    return getAllChefsOption2();
   } catch (err) {
     console.log(err);
   }
@@ -18,18 +18,19 @@ const getAllChefs = async () => {
 // Option 2: without using populate
 const getAllChefsOption2 = async () => {
   try {
-    const chefs = await chefModel.find({ status: DeleteStatus.ACTIVE }).lean();
-    const newChefs = await Promise.all(
-      chefs.map(async (chef) => {
-        const restaurantData = await Promise.all(
-          chef.restaurants.map(async (restaurantId) => {
-            return await restaurantModel.findOne({ _id: restaurantId }).lean();
-          })
-        );
+    const newChefs = await chefModel.aggregate([
+      { $match: { status: DeleteStatus.ACTIVE } },
+      {
+        $lookup: {
+          from: "restaurants",
+          localField: "restaurants",
+          foreignField: "_id",
+          as: "restaurantsData",
+        },
+      },
+      { $addFields: { restaurants: "$restaurantsData" } },
+    ]);
 
-        return { ...chef, restaurants: restaurantData };
-      })
-    );
     return newChefs;
   } catch (err) {
     console.error(err);
