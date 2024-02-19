@@ -2,8 +2,25 @@ import { ObjectId } from "mongodb";
 import DeleteStatus from "../constants";
 import restaurantModel, { IRestaurant } from "../models/restaurant.model";
 
-const getAllRestaurants = () => {
-  return restaurantModel.find({ status: DeleteStatus.ACTIVE });
+const getRestaurantId = async (restaurantName: string) => {
+  try {
+    const query = { name: restaurantName };
+    return restaurantModel.findOne(query).select("_id");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getAllRestaurants = async (activeOnly: boolean) => {
+  try {
+    const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
+    return restaurantModel.find(query).populate({
+      path: "chef",
+      select: "name",
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getRestaurantById = (restaurantId: ObjectId) => {
@@ -18,7 +35,9 @@ const updateRestaurant = (
   restaurantId: string,
   updates: Partial<IRestaurant>
 ) => {
-  return restaurantModel.updateOne({ _id: restaurantId }, updates);
+  return restaurantModel.findOneAndUpdate({ _id: restaurantId }, updates, {
+    new: true,
+  });
 };
 
 const deleteRestaurant = (restaurantId: string) => {
@@ -30,6 +49,7 @@ const deleteRestaurant = (restaurantId: string) => {
 };
 
 export default {
+  getRestaurantId,
   getRestaurantById,
   getAllRestaurants,
   createRestaurant,

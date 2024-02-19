@@ -1,8 +1,16 @@
 import DeleteStatus from "../constants";
 import dishModel, { IDish } from "../models/dish.model";
 
-const getAllDishes = () => {
-  return dishModel.find({ status: DeleteStatus.ACTIVE });
+const getAllDishes = (activeOnly: boolean) => {
+  try {
+    const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
+    return dishModel.find(query).populate({
+      path: "restaurant",
+      select: "name",
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const createDish = (dish: IDish) => {
@@ -10,7 +18,7 @@ const createDish = (dish: IDish) => {
 };
 
 const updateDish = (dishId: string, updates: Partial<IDish>) => {
-  return dishModel.updateOne({ _id: dishId }, updates);
+  return dishModel.findOneAndUpdate({ _id: dishId }, updates, { new: true });
 };
 
 const deleteDish = (dishId: string) => {

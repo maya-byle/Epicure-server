@@ -5,7 +5,7 @@ import DocumentStatus from "../constants";
 export interface IDish extends Document {
   image: string;
   name: string;
-  ingredients: string[];
+  ingredients: string;
   tags: string[];
   price: number;
   restaurant: IRestaurant;
@@ -21,12 +21,10 @@ const DishSchema: Schema = new mongoose.Schema<IDish>({
     type: String,
     required: true,
   },
-  ingredients: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
+  ingredients: {
+    type: String,
+    required: true,
+  },
   tags: [
     {
       type: String,

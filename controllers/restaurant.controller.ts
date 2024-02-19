@@ -1,10 +1,18 @@
+import chefHandler from "../handlers/chef.handler";
 import restaurantHandler from "../handlers/restaurant.handler";
 import { Request, Response } from "express";
 
 const getAllRestaurants = async (req: Request, res: Response) => {
   try {
-    const restaurants: any = await restaurantHandler.getAllRestaurants();
-    res.status(200).json(restaurants);
+    let restaurants;
+    if (req.baseUrl.includes("api")) {
+      restaurants = await restaurantHandler.getAllRestaurants(true);
+    } else {
+      restaurants = await restaurantHandler.getAllRestaurants(false);
+    }
+    res
+      .status(200)
+      .json({ message: "Restaurants fetched successfully", data: restaurants });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "could not fetch the documents" });
@@ -16,7 +24,7 @@ const createRestaurant = async (req: Request, res: Response) => {
     const newRestaurant = await restaurantHandler.createRestaurant(req.body);
     res.status(200).json({
       message: "Restaurant created successfully",
-      restaurant: newRestaurant,
+      data: newRestaurant,
     });
   } catch (error) {
     console.error(error);
@@ -27,13 +35,17 @@ const createRestaurant = async (req: Request, res: Response) => {
 const updateRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.id;
+    if (req.body.chef) {
+      req.body.chef = await chefHandler.getChefId(req.body.chef);
+    }
     const updatedRestaurant = await restaurantHandler.updateRestaurant(
       restaurantId,
       req.body
     );
+    console.log(updateRestaurant);
     res.status(200).json({
       message: "Restaurant updated successfully",
-      restaurant: updatedRestaurant,
+      data: updatedRestaurant,
     });
   } catch (error) {
     console.error(error);
@@ -51,7 +63,7 @@ const deleteRestaurant = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Restaurants not found" });
     res.status(200).json({
       message: "Restaurants deleted successfully",
-      restaurant: deletedRestaurant,
+      data: deletedRestaurant,
     });
   } catch (error) {
     console.error(error);

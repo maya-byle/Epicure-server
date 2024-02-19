@@ -1,8 +1,8 @@
 import { Router } from "express";
 import v1Router from "./versions/v1.route";
 
-const router = Router();
+const ApiRouter = Router();
 
-router.use("/v1", v1Router);
+ApiRouter.use("/v1", v1Router);
 
-export default router;
+export default ApiRouter;
