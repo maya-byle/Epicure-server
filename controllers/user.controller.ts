@@ -9,13 +9,13 @@ const loginUser = async (req: Request, res: Response) => {
   try {
     let user = await userHandler.getUser(req.body.email);
     if (!user) {
-      return res.status(404).json({ error: "User's email not found" });
+      return res.status(404).json({ message: "User's email not found" });
     }
     if (user.password !== req.body.password) {
-      return res.status(400).json({ error: "Wrong password" });
+      return res.status(400).json({ message: "Wrong password" });
     }
     if (user.role !== UserRole.ADMIN) {
-      return res.status(401).json({ error: "Unauthorized request" });
+      return res.status(401).json({ message: "Unauthorized request" });
     }
     const payload = {
       id: user._id,
