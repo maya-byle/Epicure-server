@@ -34,6 +34,8 @@ const router: express.Router = express.Router();
  */
 router.get("/", chefController.getAllChefs);
 
+router.get("/chefOfTheWeek", chefController.getChefOfTheWeek);
+
 /**
  * @swagger
  * /chefs/:

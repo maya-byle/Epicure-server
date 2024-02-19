@@ -4,4 +4,9 @@ enum DocumentStatus {
   DELETED = "deleted",
 }
 
+export enum UserRole {
+  ADMIN = "admin",
+  USER = "user",
+}
+
 export default DocumentStatus;

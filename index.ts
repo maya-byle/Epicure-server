@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import connectToDb from "./db";
-import cloudinary from "./utils/cloudinary";
 import apiRoutes from "./routes/api/api.route";
 import swaggerRoutes from "./utils/swagger";
 import adminRoutes from "./routes/admin/admin.route";

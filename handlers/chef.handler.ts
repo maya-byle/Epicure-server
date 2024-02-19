@@ -1,5 +1,6 @@
 import chefModel, { IChef } from "../models/chef.model";
 import DeleteStatus from "../constants";
+import { ObjectId } from "mongodb";
 
 const getChefId = async (chefName: string) => {
   try {
@@ -16,6 +17,17 @@ const getAllChefs = async (activeOnly: boolean) => {
     return chefModel.find(query).populate({
       path: "restaurants",
       select: "name",
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getChefOfTheWeek = async () => {
+  try {
+    return chefModel.findOne({ isChefOfTheWeek: true }).populate({
+      path: "restaurants",
+      select: ["name", "image"],
     });
   } catch (err) {
     console.error(err);
@@ -50,8 +62,10 @@ const createChef = (chef: IChef) => {
   return chefModel.create(chef);
 };
 
-const updateChef = (chefId: string, updates: Partial<IChef>) => {
-  return chefModel.findOneAndUpdate({ _id: chefId }, updates, { new: true });
+const updateChef = async (chefId: string, updates: any) => {
+  return await chefModel.findOneAndUpdate({ _id: chefId }, updates, {
+    new: true,
+  });
 };
 
 const deleteChef = (chefId: string) => {
@@ -62,4 +76,41 @@ const deleteChef = (chefId: string) => {
   );
 };
 
-export default { getChefId, getAllChefs, createChef, updateChef, deleteChef };
+const removeRestaurantFromChef = async (
+  chefId: IChef | undefined,
+  restaurantId: string
+) => {
+  try {
+    await chefModel.findByIdAndUpdate(chefId, {
+      $pull: { restaurants: restaurantId },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+const addRestaurantToChef = async (
+  chefId: any,
+  restaurantId: string | ObjectId
+) => {
+  try {
+    await chefModel.findByIdAndUpdate(chefId, {
+      $push: { restaurants: restaurantId },
+    });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export default {
+  getChefId,
+  getAllChefs,
+  getChefOfTheWeek,
+  createChef,
+  updateChef,
+  deleteChef,
+  removeRestaurantFromChef,
+  addRestaurantToChef,
+};

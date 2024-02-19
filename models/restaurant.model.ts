@@ -6,6 +6,7 @@ export interface IRestaurant extends Document {
   image: string;
   name: string;
   chef: IChef;
+  rank: number;
   status: DocumentStatus;
 }
 
@@ -18,6 +19,11 @@ const restaurantSchema: Schema = new mongoose.Schema<IRestaurant>({
     required: true,
   },
   chef: { type: Schema.Types.ObjectId, ref: "Chef" },
+  rank: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
   status: {
     type: String,
     enum: DocumentStatus,

@@ -18,6 +18,17 @@ const getAllChefs = async (req: Request, res: Response) => {
   }
 };
 
+const getChefOfTheWeek = async (req: Request, res: Response) => {
+  try {
+    const chef = await chefHandler.getChefOfTheWeek();
+    console.log(chef);
+    res.status(200).json({ message: "Chefs fetched successfully", data: chef });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not fetch the documents" });
+  }
+};
+
 const createChef = async (req: Request, res: Response) => {
   try {
     const newChef = await chefHandler.createChef(req.body);
@@ -63,6 +74,7 @@ const deleteChef = async (req: Request, res: Response) => {
 
 export default {
   getAllChefs,
+  getChefOfTheWeek,
   createChef,
   updateChef,
   deleteChef,

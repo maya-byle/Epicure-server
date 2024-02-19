@@ -23,7 +23,7 @@ const getAllRestaurants = async (activeOnly: boolean) => {
   }
 };
 
-const getRestaurantById = (restaurantId: ObjectId) => {
+const getRestaurantById = (restaurantId: string) => {
   return restaurantModel.findOne({ _id: restaurantId });
 };
 
