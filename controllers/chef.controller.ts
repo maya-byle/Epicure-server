@@ -1,5 +1,6 @@
 import chefHandler from "../handlers/chef.handler";
 import { Request, Response } from "express";
+import DeleteStatus from "../constants";
 
 const getAllChefs = async (req: Request, res: Response) => {
   try {
@@ -72,7 +73,13 @@ const updateChef = async (req: Request, res: Response) => {
 const deleteChef = async (req: Request, res: Response) => {
   try {
     const chefId = req.params.id;
-    const deletedChef = await chefHandler.deleteChef(chefId);
+    const chef = await chefHandler.getChefById(chefId);
+    let deletedChef;
+    if (chef?.status === DeleteStatus.DELETED) {
+      deletedChef = await chefHandler.deletePermenatlyChef(chefId);
+    } else {
+      deletedChef = await chefHandler.deleteChef(chefId);
+    }
     if (!deletedChef) return res.status(404).json({ error: "Chef not found" });
     res
       .status(200)

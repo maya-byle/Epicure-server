@@ -73,6 +73,10 @@ const updateChef = async (chefId: string | ObjectId, updates: any) => {
   });
 };
 
+const deletePermenatlyChef = (chefId: string) => {
+  return chefModel.findByIdAndDelete(chefId, { status: DeleteStatus.DELETED });
+};
+
 const deleteChef = (chefId: string) => {
   return chefModel.findByIdAndUpdate(
     chefId,
@@ -117,6 +121,7 @@ export default {
   createChef,
   updateChef,
   deleteChef,
+  deletePermenatlyChef,
   removeRestaurantFromChef,
   addRestaurantToChef,
 };
