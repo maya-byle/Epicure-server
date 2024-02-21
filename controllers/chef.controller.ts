@@ -20,7 +20,7 @@ const getAllChefs = async (req: Request, res: Response) => {
 
 const getChefOfTheWeek = async (req: Request, res: Response) => {
   try {
-    const chef = await chefHandler.getChefOfTheWeek();
+    const chef = await chefHandler.getChefOfTheWeek(true);
     console.log(chef);
     res.status(200).json({ message: "Chefs fetched successfully", data: chef });
   } catch (error) {
@@ -44,6 +44,17 @@ const createChef = async (req: Request, res: Response) => {
 const updateChef = async (req: Request, res: Response) => {
   try {
     const chefId = req.params.id;
+    const oldChef = await chefHandler.getChefById(chefId);
+    if (req.body.isChefOfTheWeek !== oldChef?.isChefOfTheWeek) {
+      if (req.body.isChefOfTheWeek) {
+        const oldChefOfTheWeek = await chefHandler.getChefOfTheWeek(false);
+        if (oldChefOfTheWeek) {
+          await chefHandler.updateChef(oldChefOfTheWeek._id, {
+            isChefOfTheWeek: false,
+          });
+        }
+      }
+    }
     const { restaurants, ...updatesWithoutRestaurants } = req.body;
     const updatedChef = await chefHandler.updateChef(
       chefId,

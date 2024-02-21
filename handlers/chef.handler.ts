@@ -11,6 +11,10 @@ const getChefId = async (chefName: string) => {
   }
 };
 
+const getChefById = async (chefId: string) => {
+  return chefModel.findOne({ _id: chefId });
+};
+
 const getAllChefs = async (activeOnly: boolean) => {
   try {
     const query = activeOnly ? { status: DeleteStatus.ACTIVE } : {};
@@ -23,8 +27,9 @@ const getAllChefs = async (activeOnly: boolean) => {
   }
 };
 
-const getChefOfTheWeek = async () => {
+const getChefOfTheWeek = async (isPopulated: boolean) => {
   try {
+    if (!isPopulated) return chefModel.findOne({ isChefOfTheWeek: true });
     return chefModel.findOne({ isChefOfTheWeek: true }).populate({
       path: "restaurants",
       select: ["name", "image"],
@@ -62,7 +67,7 @@ const createChef = (chef: IChef) => {
   return chefModel.create(chef);
 };
 
-const updateChef = async (chefId: string, updates: any) => {
+const updateChef = async (chefId: string | ObjectId, updates: any) => {
   return await chefModel.findOneAndUpdate({ _id: chefId }, updates, {
     new: true,
   });
@@ -106,6 +111,7 @@ const addRestaurantToChef = async (
 
 export default {
   getChefId,
+  getChefById,
   getAllChefs,
   getChefOfTheWeek,
   createChef,
