@@ -13,12 +13,20 @@ const getAllDishes = (activeOnly: boolean) => {
   }
 };
 
+const getDishById = async (dishId: string) => {
+  return dishModel.findOne({ _id: dishId });
+};
+
 const createDish = (dish: IDish) => {
   return dishModel.create(dish);
 };
 
 const updateDish = (dishId: string, updates: Partial<IDish>) => {
   return dishModel.findOneAndUpdate({ _id: dishId }, updates, { new: true });
+};
+
+const deletePermenatlyDish = (dishId: string) => {
+  return dishModel.findByIdAndDelete(dishId, { status: DeleteStatus.DELETED });
 };
 
 const deleteDish = (dishId: string) => {
@@ -29,4 +37,11 @@ const deleteDish = (dishId: string) => {
   );
 };
 
-export default { getAllDishes, createDish, updateDish, deleteDish };
+export default {
+  getAllDishes,
+  getDishById,
+  createDish,
+  updateDish,
+  deletePermenatlyDish,
+  deleteDish,
+};
