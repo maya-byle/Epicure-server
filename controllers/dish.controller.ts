@@ -1,6 +1,7 @@
 import dishHandler from "../handlers/dish.handler";
 import { Request, Response } from "express";
 import restaurantHandler from "../handlers/restaurant.handler";
+import DeleteStatus from "../constants";
 
 const getAllDishes = async (req: Request, res: Response) => {
   try {
@@ -56,7 +57,13 @@ const updateDish = async (req: Request, res: Response) => {
 const deleteDish = async (req: Request, res: Response) => {
   try {
     const dishId = req.params.id;
-    const deletedDish = await dishHandler.deleteDish(dishId);
+    const dish = await dishHandler.getDishById(dishId);
+    let deletedDish;
+    if (dish?.status === DeleteStatus.DELETED) {
+      deletedDish = await dishHandler.deletePermenatlyDish(dishId);
+    } else {
+      deletedDish = await dishHandler.deleteDish(dishId);
+    }
     if (!deletedDish) return res.status(404).json({ error: "Dish not found" });
     res
       .status(200)
