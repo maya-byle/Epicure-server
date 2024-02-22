@@ -22,7 +22,6 @@ const getAllChefs = async (req: Request, res: Response) => {
 const getChefOfTheWeek = async (req: Request, res: Response) => {
   try {
     const chef = await chefHandler.getChefOfTheWeek(true);
-    console.log(chef);
     res.status(200).json({ message: "Chefs fetched successfully", data: chef });
   } catch (error) {
     console.error(error);

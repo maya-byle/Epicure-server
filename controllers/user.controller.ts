@@ -17,12 +17,16 @@ const loginUser = async (req: Request, res: Response) => {
     if (user.role !== UserRole.ADMIN) {
       return res.status(401).json({ message: "Unauthorized request" });
     }
+    const expiresInHours = 10;
+    const expiresInSeconds = expiresInHours * 60 * 60;
+    const expirationTime = Math.floor(Date.now() / 1000) + expiresInSeconds;
     const payload = {
       id: user._id,
       email: user.email,
       role: user.role,
+      exp: expirationTime,
     };
-    const token = jwt.sign(payload, secretKey, { expiresIn: "24h" });
+    const token = jwt.sign(payload, secretKey);
     res
       .status(200)
       .json({ message: "User logged in successfully", token: token });
