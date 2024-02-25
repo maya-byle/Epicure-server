@@ -43,7 +43,6 @@ const updateDish = async (req: Request, res: Response) => {
         req.body.restaurant
       );
     }
-    console.log(req.body);
     const updatedDish = await dishHandler.updateDish(dishId, req.body);
     res
       .status(200)
