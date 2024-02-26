@@ -2,6 +2,7 @@ import chefHandler from "../handlers/chef.handler";
 import restaurantHandler from "../handlers/restaurant.handler";
 import { Request, Response } from "express";
 import DeleteStatus from "../constants";
+import dishHandler from "../handlers/dish.handler";
 
 const getAllRestaurants = async (req: Request, res: Response) => {
   try {
@@ -82,10 +83,21 @@ const deleteRestaurant = async (req: Request, res: Response) => {
     const restaurant = await restaurantHandler.getRestaurantById(restaurantId);
     let deletedRestaurant;
     if (restaurant?.status === DeleteStatus.DELETED) {
-      await chefHandler.removeRestaurantFromChef(restaurant.chef, restaurantId);
+      restaurant.chef &&
+        (await chefHandler.removeRestaurantFromChef(
+          restaurant.chef,
+          restaurantId
+        ));
       deletedRestaurant = await restaurantHandler.deletePermenatlyRestaurant(
         restaurantId
       );
+      // Changing the restaurants dishes to deleted
+      const restaurantDishes = await dishHandler.getDishesByRestaurnt(
+        restaurantId
+      );
+      restaurantDishes.forEach(async (dish) => {
+        await dishHandler.deleteDish(dish._id.toString());
+      });
     } else {
       deletedRestaurant = await restaurantHandler.deleteRestaurant(
         restaurantId

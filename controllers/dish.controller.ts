@@ -22,6 +22,9 @@ const getAllDishes = async (req: Request, res: Response) => {
 
 const createDish = async (req: Request, res: Response) => {
   try {
+    req.body.restaurant = await restaurantHandler.getRestaurantId(
+      req.body.restaurant
+    );
     const newDish = await dishHandler.createDish(req.body);
     res
       .status(200)

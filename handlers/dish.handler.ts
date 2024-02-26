@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb";
 import DeleteStatus from "../constants";
 import dishModel, { IDish } from "../models/dish.model";
+import DocumentStatus from "../constants";
 
 const getAllDishes = (activeOnly: boolean) => {
   try {
@@ -15,6 +17,10 @@ const getAllDishes = (activeOnly: boolean) => {
 
 const getDishById = async (dishId: string) => {
   return dishModel.findOne({ _id: dishId });
+};
+
+const getDishesByRestaurnt = (restaurantId: string | ObjectId) => {
+  return dishModel.find({ restaurant: restaurantId });
 };
 
 const createDish = (dish: IDish) => {
@@ -40,6 +46,7 @@ const deleteDish = (dishId: string) => {
 export default {
   getAllDishes,
   getDishById,
+  getDishesByRestaurnt,
   createDish,
   updateDish,
   deletePermenatlyDish,
