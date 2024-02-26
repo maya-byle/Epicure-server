@@ -33,6 +33,7 @@ const getChefOfTheWeek = async (isPopulated: boolean) => {
     return chefModel.findOne({ isChefOfTheWeek: true }).populate({
       path: "restaurants",
       select: ["name", "image"],
+      match: { status: DeleteStatus.ACTIVE }, // Filter out deleted restaurants
     });
   } catch (err) {
     console.error(err);
